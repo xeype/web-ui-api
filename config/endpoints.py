@@ -6,4 +6,4 @@ AUTH = BASE_URI + '/auth'
 
 BOOKING = BASE_URI + '/booking'
 
-BASE_ROZETKA = 'https://rozetka.com.ua/'
+BASE_ROZETKA = 'https://rozetka.com.ua'
