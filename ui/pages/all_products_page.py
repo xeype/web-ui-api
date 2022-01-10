@@ -14,7 +14,7 @@ class AllProductsPageHelper(BasePage):
         return products
 
     def get_all_product_items(self):
-        all_product_items = self.find_elements(AllProductsPageLocators.LOCATOR_ALL_PRODUCTS, time=5)
+        all_product_items = self.find_elements(AllProductsPageLocators.LOCATOR_ALL_PRODUCTS, time=10)
         return all_product_items
 
     def get_category_name(self):
