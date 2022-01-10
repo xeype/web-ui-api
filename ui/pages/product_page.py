@@ -8,7 +8,7 @@ class ProductPageLocators:
 
 
 class ProductPageHelper(BasePage):
-    def add_product_to_basket(self):
+    def add_product_to_cart(self):
         buy_button = self.find_elements(ProductPageLocators.LOCATOR_BUY_BUTTONS, time=5)
         buy_button[0].click()
 
