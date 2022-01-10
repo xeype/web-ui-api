@@ -4,6 +4,7 @@ from ui.pages.base_page import BasePage
 
 class AllProductsPageLocators:
     LOCATOR_ALL_PRODUCTS = (By.XPATH, "//span[@class ='goods-tile__title']")
+    LOCATOR_PRODUCTS_TITLE = (By.XPATH, "//h1[@class='portal__heading ng-star-inserted']")
 
 
 class AllProductsPageHelper(BasePage):
@@ -15,3 +16,7 @@ class AllProductsPageHelper(BasePage):
     def get_all_product_items(self):
         all_product_items = self.find_elements(AllProductsPageLocators.LOCATOR_ALL_PRODUCTS, time=5)
         return all_product_items
+
+    def get_category_name(self):
+        category = self.find_element(AllProductsPageLocators.LOCATOR_PRODUCTS_TITLE, time=5).text
+        return category
