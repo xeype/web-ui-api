@@ -27,3 +27,6 @@ class MainPageHelper(BasePage):
         for category in categories_list:
             if category_name.lower() in category.text.lower():
                 return category.click()
+
+    def get_all_categories(self):
+        return self.find_elements(MainPageLocators.LOCATOR_SIDEBAR_MENU)
