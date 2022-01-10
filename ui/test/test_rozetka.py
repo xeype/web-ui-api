@@ -59,9 +59,33 @@ def test_go_to_products_page_by_categories(browser, category):
     browser.maximize_window()
 
     main_rozetka.go_to_site()
-
     main_rozetka.click_on_the_category_by_name(category)
 
     category_title = products_page.get_category_name()
 
     assert category.lower() in category_title.lower()
+
+
+@pytest.mark.parametrize('product', ['чай'])
+def test_redirect_to_order_page_after_confirm_buy(browser, product):
+    main_rozetka = MainPageHelper(browser)
+    products_page = AllProductsPageHelper(browser)
+    product_page = ProductPageHelper(browser)
+    cart_page = CartPageHelper(browser)
+
+    main_rozetka.go_to_site()
+    main_rozetka.enter_word(product)
+    main_rozetka.click_on_the_search_button()
+    all_products = products_page.get_all_product_items()
+    all_products[0].click()
+
+    product_title = product_page.get_product_title()
+
+    product_page.add_product_to_cart()
+    cart_product_list = cart_page.get_cart_products_list()
+
+    assert product_title.lower() in str(cart_product_list).lower()
+
+    cart_page.place_an_order()
+
+    assert cart_page.get_order_title() == 'Оформление заказа'
