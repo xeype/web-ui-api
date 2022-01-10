@@ -1,8 +1,12 @@
+from selenium.webdriver.support.wait import WebDriverWait
 from ui.pages.main_page import MainPageHelper
 from ui.pages.all_products_page import AllProductsPageHelper
 from ui.pages.product_page import ProductPageHelper
 from ui.pages.cart_page import CartPageHelper
 import pytest
+from selenium.webdriver.support import expected_conditions as EC
+
+from ui.test.conftest import default_redirect_categories
 
 
 def test_check_cart_is_empty_by_default(browser):
@@ -89,3 +93,45 @@ def test_redirect_to_order_page_after_confirm_buy(browser, product):
     cart_page.place_an_order()
 
     assert cart_page.get_order_title() == 'Оформление заказа'
+
+
+@pytest.mark.parametrize('category', default_redirect_categories)
+def test_all_categories_are_clickable_and_redirect_to_the_right_page(browser, category):
+    main_rozetka = MainPageHelper(browser)
+    products_page = AllProductsPageHelper(browser)
+    browser.maximize_window()
+
+    main_rozetka.go_to_site()
+    main_rozetka.click_on_the_category_by_name(category)
+    assert category.lower()[0] in products_page.get_category_name().lower()
+
+
+@pytest.mark.parametrize('tour_category', ['Туры и отдых'])
+def test_tours_category_are_clickable_and_redirect_to_the_right_page(browser, tour_category):
+    main_rozetka = MainPageHelper(browser)
+    browser.maximize_window()
+
+    main_rozetka.go_to_site()
+    main_rozetka.click_on_the_category_by_name(tour_category)
+    assert 'rozetka.travel' in browser.current_url
+
+
+@pytest.mark.parametrize('clothes_category', ['Одежда, обувь и украшения'])
+def test_clothes_category_are_clickable_and_redirect_to_the_right_page(browser, clothes_category):
+    main_rozetka = MainPageHelper(browser)
+    browser.maximize_window()
+
+    main_rozetka.go_to_site()
+    main_rozetka.click_on_the_category_by_name(clothes_category)
+    WebDriverWait(browser, 10).until(EC.url_contains('/shoes_clothes/'))
+    assert '/shoes_clothes/' in browser.current_url
+
+
+@pytest.mark.parametrize('promotions_category', ['Акции'])
+def test_promotions_category_are_clickable_and_redirect_to_the_right_page(browser, promotions_category):
+    main_rozetka = MainPageHelper(browser)
+    browser.maximize_window()
+
+    main_rozetka.go_to_site()
+    main_rozetka.click_on_the_category_by_name(promotions_category)
+    assert '/promotions/' in browser.current_url
