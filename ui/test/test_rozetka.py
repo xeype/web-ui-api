@@ -79,6 +79,7 @@ def test_go_to_products_page_by_categories(browser, category):
 
 @allure.title('Redirect to order page')
 @allure.description('Add product to cart > Confirm buy > Wait to order page')
+@pytest.mark.flaky(reruns=5, reruns_delay=2)
 @pytest.mark.parametrize('product', ['чай'])
 def test_redirect_to_order_page_after_confirm_buy(browser, product):
     main_rozetka = MainPageHelper(browser)
